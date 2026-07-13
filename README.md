@@ -1,4 +1,4 @@
-# Sagepilot: AI Order Supervisor Dashboard
+# Sagepilot: AI Order Supervisor Dashboard 
 
 Sagepilot is an interactive high-fidelity frontend prototype of an AI-assisted operations cockpit. Designed for customer support and order operations teams, Sagepilot demonstrates how AI agent exception handling can be combined with human-in-the-loop oversight to manage order lifecycle exceptions (e.g., payment failures, shipment delays, refund approvals) with complete transparency.
 
