@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import {
   Activity,
   Bot,
-  Sparkles,
+  Zap,
   Radio,
   UserCheck,
   ShieldCheck,
@@ -103,9 +103,21 @@ function LiveFeed() {
         <span className="text-xs text-muted-foreground">Latest 12</span>
       </div>
       <div className="grid grid-cols-2 divide-x divide-border">
-        <div className="p-3">
-          <div className="mb-2 flex items-center gap-1.5 px-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-            <Activity className="h-3 w-3" /> Events
+        {/* Events column */}
+        <div className="p-4">
+          <div className="mb-3 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-status-event-soft text-status-event">
+                <Activity className="h-4 w-4" />
+              </div>
+              <div>
+                <div className="text-sm font-semibold">Events</div>
+                <div className="text-xs text-muted-foreground">Things that happened to the order</div>
+              </div>
+            </div>
+            <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-muted px-2 text-xs font-medium text-muted-foreground">
+              {events.length}
+            </span>
           </div>
           <div className="space-y-1">
             {events.slice(0, 6).map((e) => <Row key={e.id} item={e} tone="event" />)}
@@ -114,9 +126,21 @@ function LiveFeed() {
             )}
           </div>
         </div>
-        <div className="p-3">
-          <div className="mb-2 flex items-center gap-1.5 px-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-            <Sparkles className="h-3 w-3" /> AI Actions
+        {/* Actions column */}
+        <div className="p-4">
+          <div className="mb-3 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-status-ai-soft text-status-ai">
+                <Zap className="h-4 w-4" />
+              </div>
+              <div>
+                <div className="text-sm font-semibold">Actions</div>
+                <div className="text-xs text-muted-foreground">What the AI or human decided to do</div>
+              </div>
+            </div>
+            <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-muted px-2 text-xs font-medium text-muted-foreground">
+              {actions.length}
+            </span>
           </div>
           <div className="space-y-1">
             {actions.slice(0, 6).map((a) => (
