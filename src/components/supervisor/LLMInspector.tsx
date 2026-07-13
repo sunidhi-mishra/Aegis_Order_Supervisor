@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/tabs";
 import { MessagePreview } from "./MessagePreview";
 import { TOOL_META } from "@/lib/supervisor-types";
+import { cn } from "@/lib/utils";
 
 function Section({ title, icon: Icon, children }: { title: string; icon: typeof Bot; children: React.ReactNode }) {
   return (
@@ -24,11 +25,13 @@ function Section({ title, icon: Icon, children }: { title: string; icon: typeof 
   );
 }
 
-function Code({ children }: { children: React.ReactNode }) {
+function Code({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <pre className="overflow-x-auto rounded-xl bg-muted/60 p-3 text-xs font-mono leading-relaxed text-foreground/90">
-      {children}
-    </pre>
+    <div className={cn("w-full max-w-[calc(100vw-48px)] lg:max-w-[346px] overflow-x-auto rounded-xl bg-muted/60 custom-scrollbar", className)}>
+      <pre className="min-w-max p-3 text-xs font-mono leading-relaxed text-foreground/90 whitespace-pre">
+        {children}
+      </pre>
+    </div>
   );
 }
 
@@ -139,14 +142,16 @@ export function LLMInspector() {
                     <Code>{t.memory}</Code>
                   </Section>
                   <Section title="Policies" icon={Wrench}>
-                    <ul className="space-y-1 rounded-xl bg-muted/60 p-3 text-xs">
-                      {t.policies.map((p, i) => (
-                        <li key={i} className="flex gap-2">
-                          <span className="text-muted-foreground">{i + 1}.</span>
-                          <span>{p}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="w-full max-w-[calc(100vw-48px)] lg:max-w-[346px] overflow-x-auto rounded-xl bg-muted/60 custom-scrollbar">
+                      <ul className="min-w-max space-y-1 p-3 text-xs">
+                        {t.policies.map((p, i) => (
+                          <li key={i} className="flex gap-2 whitespace-nowrap">
+                            <span className="text-muted-foreground">{i + 1}.</span>
+                            <span>{p}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </Section>
                   <Section title="Output schema" icon={FileJson}>
                     <Code>{t.schema}</Code>
