@@ -221,9 +221,7 @@ export function AppShell() {
             </TabsContent>
 
             <TabsContent value="config" className="mt-0">
-              <div className="mx-auto max-w-3xl">
-                <ConfigPanel />
-              </div>
+              <ConfigPanel />
             </TabsContent>
           </Tabs>
 
