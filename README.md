@@ -1,4 +1,13 @@
-# Sagepilot: AI Order Supervisor Dashboard 
+# Sagepilot: AI Order Supervisor Dashboard
+
+> ### 👀 Psst... before you read all this
+> **Your AI coworker is already on the job.** Click below to watch it handle angry customers, failed payments, and shipping disasters without breaking a sweat.
+>
+> [![Live Demo](https://img.shields.io/badge/🚀%20See%20it%20Live-Click%20Here-orange?style=for-the-badge)](https://sagepilot-order-supervisor.pages.dev)
+>
+> *No sign-up. No install. Just vibes and AI.* ✨
+
+---
 
 Sagepilot is an interactive high-fidelity frontend prototype of an AI-assisted operations cockpit. Designed for customer support and order operations teams, Sagepilot demonstrates how AI agent exception handling can be combined with human-in-the-loop oversight to manage order lifecycle exceptions (e.g., payment failures, shipment delays, refund approvals) with complete transparency.
 
@@ -50,8 +59,8 @@ Make sure you have Node.js and Bun (or npm) installed on your system.
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/Aegis_Order_Supervisor.git
-   cd Aegis_Order_Supervisor
+   git clone https://github.com/your-username/Sagepilot_Order_Supervisor.git
+   cd Sagepilot_Order_Supervisor
    ```
 
 2. Install dependencies:
