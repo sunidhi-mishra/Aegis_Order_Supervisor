@@ -4,13 +4,13 @@ import { AppShell } from "@/components/supervisor/AppShell";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Order Supervisor — AI operations dashboard" },
+      { title: "Sagepilot Order Supervisor — AI operations dashboard" },
       {
         name: "description",
         content:
           "A calm, interactive prototype showing how an AI supervisor monitors orders, proposes actions, and hands off to humans when it matters.",
       },
-      { property: "og:title", content: "Order Supervisor — AI operations dashboard" },
+      { property: "og:title", content: "Sagepilot Order Supervisor — AI operations dashboard" },
       {
         property: "og:description",
         content:

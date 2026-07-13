@@ -145,7 +145,7 @@ export function AppShell() {
                 <Bot className="h-5 w-5" />
               </div>
               <div>
-                <div className="text-sm font-semibold leading-none">Order Supervisor</div>
+                <div className="text-sm font-semibold leading-none">Sagepilot Order Supervisor</div>
                 <div className="text-[11px] text-muted-foreground">AI operations dashboard</div>
               </div>
             </div>
