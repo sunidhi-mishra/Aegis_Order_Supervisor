@@ -148,7 +148,7 @@ export function ConfigPanel() {
         </Row>
       </div>
 
-      {/* Row 3: Test scenario — full width */}
+      {/* Row 3: Test scenario: full width */}
       <Row
         icon={FlaskConical}
         title="Test scenario"
@@ -159,7 +159,7 @@ export function ConfigPanel() {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="default">Default — payment retry & delay</SelectItem>
+            <SelectItem value="default">Default (payment retry & delay)</SelectItem>
             <SelectItem value="chargeback">Aggressive chargeback threat</SelectItem>
             <SelectItem value="wrong_item">Wrong item + partial refund</SelectItem>
             <SelectItem value="vip">VIP customer, high-value refund</SelectItem>

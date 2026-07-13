@@ -72,7 +72,7 @@ const statusLabel: Record<ItemStatus, string> = {
 };
 
 function toneClasses(tone: string) {
-  // Uses semantic tokens — bg-status-*-soft + text-status-* defined in styles.css
+  // Uses semantic tokens: bg-status-*-soft + text-status-* defined in styles.css
   return {
     ring: `ring-status-${tone}/20`,
     bg: `bg-status-${tone}-soft`,

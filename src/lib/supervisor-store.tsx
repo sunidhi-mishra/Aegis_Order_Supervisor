@@ -105,7 +105,7 @@ function decisionFor(
 
   const empathetic =
     `Hi ${order.customer.split(" ")[0]}, we're really sorry about this. ` +
-    `We've flagged your order ${order.id} and our team is on it — you'll hear from us shortly.`;
+    `We've flagged your order ${order.id} and our team is on it, and you'll hear from us shortly.`;
 
   switch (event) {
     case "payment_failed":
@@ -118,7 +118,7 @@ function decisionFor(
         message: {
           channel: "whatsapp",
           to: order.customer,
-          body: `Hi ${order.customer.split(" ")[0]}, your payment for order ${order.id} didn't go through. Tap here to retry — no need to re-enter your cart.`,
+          body: `Hi ${order.customer.split(" ")[0]}, your payment for order ${order.id} didn't go through. Tap here to retry (no need to re-enter your cart).`,
         },
       };
       break;
@@ -153,7 +153,7 @@ function decisionFor(
         tool: "issue_refund",
         reasoning: auto
           ? `Refund of ₹${amount} is within the ₹${config.refundThreshold} auto-approval threshold and matches policy.`
-          : `Refund of ₹${amount} exceeds the ₹${config.refundThreshold} auto-approval threshold — routing for human review.`,
+          : `Refund of ₹${amount} exceeds the ₹${config.refundThreshold} auto-approval threshold, routing for human review.`,
         confidence: auto ? 0.91 : 0.68,
         needsReview: !auto,
         amount,
@@ -179,7 +179,7 @@ function decisionFor(
       decision = {
         tool: "escalate_to_human",
         reasoning:
-          "Wrong item delivered — needs replacement dispatch + partial credit. Both actions require human confirmation.",
+          "Wrong item delivered, needs replacement dispatch + partial credit. Both actions require human confirmation.",
         confidence: 0.7,
         needsReview: true,
       };
@@ -187,7 +187,7 @@ function decisionFor(
     case "customer_followup":
       decision = {
         tool: "notify_customer",
-        reasoning: "Straightforward status update — safe to send without review.",
+        reasoning: "Straightforward status update, safe to send without review.",
         confidence: 0.94,
         needsReview: false,
         message: {
@@ -200,7 +200,7 @@ function decisionFor(
     case "delivery_completed":
       decision = {
         tool: "close_ticket",
-        reasoning: "Delivery confirmed by courier. No open issues — case can be closed.",
+        reasoning: "Delivery confirmed by courier. No open issues, case can be closed.",
         confidence: 0.97,
         needsReview: false,
       };
@@ -267,16 +267,16 @@ function buildInitialState(): State {
   const items: TimelineItem[] = [
     mk({ ts: t(38), type: "event", status: "closed", title: "Payment Failed", description: "Gateway returned SOFT_DECLINE on ₹3,480 charge.", eventKind: "payment_failed" }),
     mk({ ts: t(37), type: "ai_reasoning", status: "closed", title: "AI Supervisor woke up", description: "Analysed failure code and recent order context." }),
-    mk({ ts: t(36), type: "ai_decision", status: "closed", title: "Send retry link via WhatsApp", description: "Confidence 86% — within auto-approval band." }),
+    mk({ ts: t(36), type: "ai_decision", status: "closed", title: "Send retry link via WhatsApp", description: "Confidence 86% (within auto-approval band)." }),
     mk({ ts: t(35), type: "execution", status: "executed", title: "WhatsApp sent to Aditi Sharma", description: "Message delivered · read at 12:14" }),
     mk({ ts: t(28), type: "event", status: "closed", title: "Customer contacted support", description: "Aditi replied: \"I paid but the order still shows failed?\"", eventKind: "support_contact" }),
-    mk({ ts: t(27), type: "note", status: "closed", title: "Internal note created", description: "Cross-check payment webhook — potential race condition." }),
+    mk({ ts: t(27), type: "note", status: "closed", title: "Internal note created", description: "Cross-check payment webhook: potential race condition." }),
     mk({ ts: t(20), type: "event", status: "closed", title: "Shipment Delayed", description: "Courier ETA slipped by 36 hours.", eventKind: "shipment_delayed" }),
-    mk({ ts: t(19), type: "ai_decision", status: "closed", title: "Notify logistics on Slack", description: "Confidence 78% — auto-executed." }),
+    mk({ ts: t(19), type: "ai_decision", status: "closed", title: "Notify logistics on Slack", description: "Confidence 78% (auto-executed)." }),
     mk({ ts: t(18), type: "execution", status: "executed", title: "Slack posted to #ops-logistics", description: "Ops acknowledged in 3 min." }),
     mk({ ts: t(9), type: "event", status: "active", title: "Refund Requested", description: "Customer requested a refund of ₹2,784.", eventKind: "refund_requested" }),
-    mk({ ts: t(8), type: "ai_reasoning", status: "closed", title: "AI evaluated refund", description: "Amount above configured threshold — flagging for review." }),
-    mk({ ts: t(7), type: "review", status: "pending", title: "Awaiting human review", description: "Issue refund of ₹2,784 — pending approval." }),
+    mk({ ts: t(8), type: "ai_reasoning", status: "closed", title: "AI evaluated refund", description: "Amount above configured threshold, flagging for review." }),
+    mk({ ts: t(7), type: "review", status: "pending", title: "Awaiting human review", description: "Issue refund of ₹2,784 (pending approval)." }),
   ];
 
   // Attach decision + trace to the pending review card so the inspector works.
@@ -440,7 +440,7 @@ export function SupervisorProvider({ children }: { children: ReactNode }) {
           audit({
             actor: "AI Supervisor",
             action: decision.needsReview
-              ? `Proposed ${meta2.label} — awaiting review`
+              ? `Proposed ${meta2.label} (awaiting review)`
               : `Decided to ${meta2.label}`,
             reasoning: decision.reasoning,
             status: decision.needsReview ? "pending" : "active",
@@ -563,14 +563,14 @@ export function SupervisorProvider({ children }: { children: ReactNode }) {
     dispatch({ type: "RESET", state: buildInitialState() });
   }, []);
 
-  // Simulated "scheduled wake" heartbeat — occasionally logs a passive check.
+  // Simulated "scheduled wake" heartbeat: occasionally logs a passive check.
   useEffect(() => {
     const t = setInterval(() => {
-      // Just an audit ping — non-intrusive.
+      // Just an audit ping: non-intrusive.
       audit({
         actor: "System",
         action: "Scheduled wake check",
-        reasoning: "No open events — supervisor sleeping.",
+        reasoning: "No open events: supervisor sleeping.",
         status: "closed",
       });
     }, 45_000);

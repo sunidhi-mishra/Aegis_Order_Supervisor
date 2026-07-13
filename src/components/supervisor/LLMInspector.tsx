@@ -175,7 +175,7 @@ export function LLMInspector() {
                 </Section>
               ) : (
                 <div className="rounded-xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-                  No message payload — this decision has no outbound communication.
+                  No message payload: this decision has no outbound communication.
                 </div>
               )}
             </TabsContent>
@@ -188,7 +188,7 @@ export function LLMInspector() {
             <p className="mt-1">{item.description}</p>
           </div>
           <p className="mt-4 text-xs text-muted-foreground">
-            This step does not have an AI decision attached — it's a system or human event.
+            This step does not have an AI decision attached; it's a system or human event.
           </p>
         </ScrollArea>
       )}
