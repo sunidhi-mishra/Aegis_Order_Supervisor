@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { format } from "date-fns";
 import {
   Activity,
@@ -12,6 +12,7 @@ import {
   Settings2,
   Package,
   ArrowRight,
+  ChevronDown,
 } from "lucide-react";
 import { SupervisorProvider, useSupervisor } from "@/lib/supervisor-store";
 import { Timeline } from "./Timeline";
@@ -29,34 +30,187 @@ import { cn } from "@/lib/utils";
 function OrderHeader() {
   const { state } = useSupervisor();
   const { order } = state;
+  const [isExpanded, setIsExpanded] = useState(false);
   const pending = state.items.filter((i) => i.type === "review" && i.status === "pending").length;
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-soft)]">
-      <div className="flex items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
-          <Package className="h-5 w-5" />
-        </div>
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-sm text-muted-foreground">{order.id}</span>
-            <ArrowRight className="h-3 w-3 text-muted-foreground/60" />
-            <span className="font-medium">{order.customer}</span>
+    <div className="rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-soft)] transition-all duration-300">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        {/* Clickable summary block */}
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="flex items-center gap-3 text-left transition-all hover:opacity-85 group cursor-pointer focus:outline-none"
+        >
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform group-hover:scale-[1.03]">
+            <Package className="h-5 w-5" />
           </div>
-          <div className="text-xs text-muted-foreground">
-            ₹{order.total.toLocaleString("en-IN")} · {order.items}
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-sm text-muted-foreground">{order.id}</span>
+              <ArrowRight className="h-3 w-3 text-muted-foreground/60" />
+              <span className="font-medium text-foreground">{order.customer}</span>
+              <ChevronDown className={cn("h-4 w-4 text-muted-foreground/60 transition-transform duration-300", isExpanded && "rotate-180")} />
+            </div>
+            <div className="text-xs text-muted-foreground">
+              ₹{order.total.toLocaleString("en-IN")} · {order.items}
+            </div>
           </div>
+        </button>
+
+        <div className="flex items-center gap-3">
+          {pending > 0 && (
+            <Badge variant="outline" className="bg-status-review-soft text-status-review border-status-review/25 gap-1.5">
+              <UserCheck className="h-3.5 w-3.5" />
+              {pending} awaiting review
+            </Badge>
+          )}
+          <EventInjector />
         </div>
       </div>
-      <div className="flex items-center gap-3">
-        {pending > 0 && (
-          <Badge variant="outline" className="bg-status-review-soft text-status-review border-status-review/25 gap-1.5">
-            <UserCheck className="h-3.5 w-3.5" />
-            {pending} awaiting review
-          </Badge>
-        )}
-        <EventInjector />
-      </div>
+
+      {isExpanded && (
+        <div className="mt-4 border-t border-border pt-6 animate-in fade-in slide-in-from-top-2 duration-300">
+          {/* Main Grid split by vertical border on desktop */}
+          <div className="grid gap-8 md:grid-cols-2 md:divide-x md:divide-border">
+            
+            {/* Left Column: Customer Profile & Order Specification */}
+            <div className="space-y-6 md:pr-4">
+              {/* Customer Profile */}
+              <div className="space-y-3">
+                <h4 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">Customer Profile</h4>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Email</span>
+                    <span className="font-medium text-foreground">aditi.sharma@example.com</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Phone</span>
+                    <span className="font-medium text-foreground">+91 98765 43210</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Location</span>
+                    <span className="font-medium text-foreground">New Delhi, India</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Segment</span>
+                    <span className="inline-flex items-center gap-1.5 font-medium text-status-review">
+                      <span className="h-1.5 w-1.5 rounded-full bg-status-review" />
+                      Gold Loyalty Member
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <hr className="border-border/60" />
+
+              {/* Order Specification */}
+              <div className="space-y-3">
+                <h4 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">Order Specification</h4>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Channel</span>
+                    <span className="font-medium text-foreground">Web Store</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Courier partner</span>
+                    <span className="font-medium text-foreground">BlueDart Express</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Shipping address</span>
+                    <span className="font-medium text-foreground">12 Connaught Place, New Delhi</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Order date & time</span>
+                    <span className="font-medium text-foreground">12 Jul 2026, 4:42 PM</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Payment method</span>
+                    <span className="font-medium text-foreground">UPI</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Expected delivery</span>
+                    <span className="font-medium text-foreground">15 Jul 2026</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Tracking number</span>
+                    <span className="font-medium text-foreground">BD48213097IN</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Price Distribution & Cost Summary */}
+            <div className="space-y-6 md:pl-8">
+              {/* Price Distribution Grid Box */}
+              <div className="space-y-3">
+                <h4 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">Price Distribution</h4>
+                <div className="grid grid-cols-2 rounded-xl border border-border bg-surface-muted/10 divide-x divide-border">
+                  <div className="p-4">
+                    <div className="text-[9px] font-semibold tracking-wider text-muted-foreground uppercase">Total Items</div>
+                    <div className="text-lg font-bold text-foreground mt-1">2 Units</div>
+                  </div>
+                  <div className="p-4">
+                    <div className="text-[9px] font-semibold tracking-wider text-muted-foreground uppercase">Avg. Item Value</div>
+                    <div className="text-lg font-bold text-foreground mt-1">₹1,740.00</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Cost Summary (Capsules & Detailed Totals) */}
+              <div className="space-y-3">
+                <h4 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80">Cost Summary</h4>
+                
+                {/* Item Capsules */}
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center p-3 rounded-xl border border-border/80 bg-surface hover:bg-surface-muted/20 transition-all duration-200">
+                    <div className="flex items-center gap-3">
+                      <span className="rounded-md bg-primary/5 px-2 py-0.5 text-xs font-mono font-semibold text-primary">
+                        1x
+                      </span>
+                      <span className="text-sm font-medium text-foreground">Wireless Headphones</span>
+                    </div>
+                    <span className="text-sm font-semibold text-foreground">₹2,499</span>
+                  </div>
+
+                  <div className="flex justify-between items-center p-3 rounded-xl border border-border/80 bg-surface hover:bg-surface-muted/20 transition-all duration-200">
+                    <div className="flex items-center gap-3">
+                      <span className="rounded-md bg-primary/5 px-2 py-0.5 text-xs font-mono font-semibold text-primary">
+                        1x
+                      </span>
+                      <span className="text-sm font-medium text-foreground">Phone Case</span>
+                    </div>
+                    <span className="text-sm font-semibold text-foreground">₹981</span>
+                  </div>
+                </div>
+
+                {/* Final Cost Summary totals box */}
+                <div className="rounded-xl border border-border bg-surface-muted/10 p-4 space-y-2.5">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Subtotal</span>
+                    <span className="font-medium text-foreground">₹3,480.00</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">GST (18% included)</span>
+                    <span className="font-medium text-foreground">₹530.85</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Shipping & delivery</span>
+                    <span className="text-status-executed font-bold text-xs uppercase tracking-wider">Free</span>
+                  </div>
+                  
+                  <hr className="border-border/60 my-1" />
+                  
+                  <div className="flex justify-between text-base font-bold text-foreground">
+                    <span>Grand total</span>
+                    <span>₹3,480.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }

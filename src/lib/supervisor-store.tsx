@@ -298,7 +298,7 @@ function buildInitialState(): State {
     { id: nid("aud"), ts: t(35), actor: "AI Supervisor", action: "Sent retry link via WhatsApp", reasoning: "Payment soft-declined; retry is safe.", status: "executed" },
     { id: nid("aud"), ts: t(27), actor: "AI Supervisor", action: "Created internal note", reasoning: "Potential webhook race.", status: "closed" },
     { id: nid("aud"), ts: t(18), actor: "AI Supervisor", action: "Notified logistics on Slack", reasoning: "Courier ETA slipped by 36h.", status: "executed" },
-    { id: nid("aud"), ts: t(7),  actor: "AI Supervisor", action: "Requested human review", reasoning: "Refund above auto-approval threshold.", status: "pending" },
+    { id: nid("aud"), ts: t(7), actor: "AI Supervisor", action: "Requested human review", reasoning: "Refund above auto-approval threshold.", status: "pending" },
   ];
 
   return {
