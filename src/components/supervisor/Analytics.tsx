@@ -153,19 +153,23 @@ export function AnalyticsDashboard() {
       </div>
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <KPI icon={Zap} label="Total decisions" value={String(stats.total)} tone="ai" />
-        <KPI icon={CheckCircle2} label="Executed" value={String(stats.executions)} tone="executed" />
+        <KPI icon={Zap} label="Total decisions" value={String(stats.total)} tone="ai"
+          hint="AI decisions made so far for this order" />
+        <KPI icon={CheckCircle2} label="Executed" value={String(stats.executions)} tone="executed"
+          hint="Actions that were carried out successfully" />
         <KPI
           icon={UserCheck}
           label="Approval rate"
           value={`${(stats.approvalRate * 100).toFixed(0)}%`}
           tone="executed"
+          hint="% of reviewed decisions approved by a human"
         />
         <KPI
           icon={Repeat}
           label="Override rate"
           value={`${(stats.overrideRate * 100).toFixed(0)}%`}
           tone="review"
+          hint="% of AI decisions overridden by human"
         />
       </div>
 
@@ -250,13 +254,13 @@ export function AnalyticsDashboard() {
             icon={Activity}
             label="Decision volume"
             value={String(stats.total)}
-            hint="Includes both auto-executed and human-approved decisions."
+            hint="Includes both auto-executed and human-approved decisions"
           />
           <KPI
             icon={DollarSign}
             label="Estimated AI cost"
             value={`$${stats.estCost.toFixed(4)}`}
-            hint={`${stats.totalTokens.toLocaleString()} tokens across this order's lifecycle.`}
+            hint={`${stats.totalTokens.toLocaleString()} tokens across this order's lifecycle`}
           />
         </div>
       </div>
