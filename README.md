@@ -48,6 +48,7 @@ Furthermore, existing AI solutions often operate as "black boxes," preventing hu
 * **Styling**: Tailwind CSS v4 + custom scrollbar utilities for smooth UX
 * **Charts**: Recharts (fully customized intervals and axes)
 * **Icons**: Lucide React
+* **Deployment**: Cloudflare Pages + Workers (SSR via Nitro with cloudflare-module preset)
 
 ---
 
